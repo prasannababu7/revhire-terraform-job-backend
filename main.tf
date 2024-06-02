@@ -154,18 +154,6 @@ resource "aws_codebuild_project" "revhire-job-build" {
     }
 
     environment_variable {
-      type = "PARAMETER_STORE" 
-      name = "ACCESS_KEY_ID"
-      value =  "ACCESS_KEY_ID"
-    }
-
-    environment_variable {
-      type = "PARAMETER_STORE"
-      name = "SECRET_ACCESS_KEY"
-      value = "SECRET_ACCESS_KEY"
-    }
-
-    environment_variable {
       name  = "TAG"
       value = "latest"
     }

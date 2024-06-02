@@ -108,10 +108,6 @@ resource "aws_iam_role_policy_attachment" "AWSEC2ContainerRegistryFullAccess" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess"
 }
 
-resource "aws_iam_role_policy_attachment" "AWSEC2ContainerRegistryPublicFullAccess" {
-  role       = aws_iam_role.codebuild_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPublicFullAccess"
-}
 
 resource "aws_iam_role_policy_attachment" "codebuild_s3_full_access" {
   role       = aws_iam_role.codebuild_role.name

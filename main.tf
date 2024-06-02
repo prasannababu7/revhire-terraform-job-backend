@@ -51,17 +51,23 @@ resource "aws_iam_role_policy" "codebuild_policy" {
           "secretsmanager:GetSecretValue"
         ]
         Resource = [
-          "arn:aws:ssm:us-east-1:590183890913:parameter/ACCESS_KEY_ID",
-          "arn:aws:ssm:us-east-1:590183890913:parameter/SECRET_ACCESS_KEY"
+          "arn:aws:secretsmanager:us-east-1:914921102753:secret:revhire-job-access-keys-terraform-LL9b5H"
         ]
       },
       {
         Effect   = "Allow"
         Action   = [
           "ecr-public:GetAuthorizationToken",
-          "sts:GetServiceBearerToken"  // Add this line
+          "sts:GetServiceBearerToken"
         ]
         Resource = "*"
+      },
+      {
+        Effect   = "Allow"
+        Action   = [
+          "ecr-public:InitiateLayerUpload" // Add this line
+        ]
+        Resource = "arn:aws:ecr-public::590183890913:repository/revhire-job-ecr-repo"
       },
       {
         Effect   = "Allow"
@@ -69,11 +75,12 @@ resource "aws_iam_role_policy" "codebuild_policy" {
           "eks:DescribeCluster",
           "eks:GetToken"
         ]
-        Resource = "arn:aws:eks:us-east-1:590183890913:cluster/revhire-cluster"
+        Resource = "arn:aws:eks:us-east-1:914921102753:cluster/my-cluster"
       }
     ]
   })
 }
+
 
 
 resource "aws_iam_role_policy_attachment" "codebuild_s3_full_access" {

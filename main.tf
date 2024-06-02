@@ -22,6 +22,9 @@ resource "aws_iam_role" "codebuild_role" {
   })
 }
 
+data "aws_codecommit_repository" "revhire-job-repository" {
+  repository_name = aws_codecommit_repository.revhire-job-repository.repository_name
+}
 resource "aws_iam_role_policy" "codebuild_policy" {
   name = "codebuild-policy"
   role = aws_iam_role.codebuild_role.id

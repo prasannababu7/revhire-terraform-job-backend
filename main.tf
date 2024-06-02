@@ -100,6 +100,15 @@ resource "aws_iam_role_policy" "codebuild_policy" {
 }
 
 
+resource "aws_iam_role_policy_attachment" "AWSEC2ContainerRegistryPowerUserAccess" {
+  role       = aws_iam_role.codebuild_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUserAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "AWSEC2ContainerRegistryFullAccess" {
+  role       = aws_iam_role.codebuild_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess"
+}
 resource "aws_iam_role_policy_attachment" "codebuild_s3_full_access" {
   role       = aws_iam_role.codebuild_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"

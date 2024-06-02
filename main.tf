@@ -146,7 +146,7 @@ resource "aws_codebuild_project" "revhire-job-build" {
 
     environment_variable {
       name  = "REPOSITORY_URI"
-      value = "public.ecr.aws/m1n3x7n9/revhire-job-ecr-repo"
+      value = "public.ecr.aws/w2k8x3r6/revhire-job-repo"
     }
     environment_variable {
       name  = "EKS_CLUSTERNAME"

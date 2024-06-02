@@ -25,6 +25,7 @@ resource "aws_iam_role" "codebuild_role" {
 data "aws_codecommit_repository" "revhire-job-repository" {
   repository_name = aws_codecommit_repository.revhire-job-repository.repository_name
 }
+
 resource "aws_iam_role_policy" "codebuild_policy" {
   name = "codebuild-policy"
   role = aws_iam_role.codebuild_role.id
@@ -61,7 +62,8 @@ resource "aws_iam_role_policy" "codebuild_policy" {
       {
         Effect   = "Allow"
         Action   = [
-          "ecr-public:GetAuthorizationToken"
+          "ecr-public:GetAuthorizationToken",
+          "sts:GetServiceBearerToken"  # Added permission here
         ]
         Resource = "*"
       },
@@ -96,7 +98,6 @@ resource "aws_iam_role_policy" "codebuild_policy" {
     ]
   })
 }
-
 
 
 resource "aws_iam_role_policy_attachment" "codebuild_s3_full_access" {

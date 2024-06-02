@@ -43,7 +43,7 @@ resource "aws_iam_role_policy" "codebuild_policy" {
         Action   = [
           "codecommit:GitPull"
         ]
-        Resource = data.aws_codecommit_repository.revhire_job_repo.arn
+        Resource = data.aws_codecommit_repository.revhire-job-repository.arn
       },
       {
         Effect   = "Allow"

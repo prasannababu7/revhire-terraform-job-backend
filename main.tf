@@ -43,7 +43,7 @@ resource "aws_iam_role_policy" "codebuild_policy" {
         Action   = [
           "codecommit:GitPull"
         ]
-        Resource = aws_codecommit_repository.revhire-job-repository.arn
+        Resource = data.aws_codecommit_repository.revhire_job_repo.arn
       },
       {
         Effect   = "Allow"
@@ -51,23 +51,16 @@ resource "aws_iam_role_policy" "codebuild_policy" {
           "secretsmanager:GetSecretValue"
         ]
         Resource = [
-          "arn:aws:secretsmanager:us-east-1:914921102753:secret:revhire-job-access-keys-terraform-LL9b5H"
+          "arn:aws:ssm:us-east-1:590183890913:parameter/ACCESS_KEY_ID",
+          "arn:aws:ssm:us-east-1:590183890913:parameter/SECRET_ACCESS_KEY"
         ]
       },
       {
         Effect   = "Allow"
         Action   = [
-          "ecr-public:GetAuthorizationToken",
-          "sts:GetServiceBearerToken"
+          "ecr-public:GetAuthorizationToken"
         ]
         Resource = "*"
-      },
-      {
-        Effect   = "Allow"
-        Action   = [
-          "ecr-public:InitiateLayerUpload" // Add this line
-        ]
-        Resource = "arn:aws:ecr-public::590183890913:repository/revhire-job-ecr-repo"
       },
       {
         Effect   = "Allow"
@@ -75,7 +68,27 @@ resource "aws_iam_role_policy" "codebuild_policy" {
           "eks:DescribeCluster",
           "eks:GetToken"
         ]
-        Resource = "arn:aws:eks:us-east-1:914921102753:cluster/my-cluster"
+        Resource = "arn:aws:eks:us-east-1:590183890913:cluster/revhire-cluster"
+      },
+      {
+        Effect   = "Allow"
+        Action   = [
+          "ssm:GetParameter",
+          "ssm:GetParameters",
+          "ssm:GetParameterHistory"
+        ]
+        Resource = "*"
+      },
+      {
+        Effect   = "Allow"
+        Action   = [
+          "eks:ListClusters",
+          "eks:ListNodegroups",
+          "eks:DescribeNodegroup",
+          "eks:ListFargateProfiles",
+          "eks:DescribeFargateProfile"
+        ]
+        Resource = "*"
       }
     ]
   })

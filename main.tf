@@ -63,7 +63,11 @@ resource "aws_iam_role_policy" "codebuild_policy" {
         Effect   = "Allow"
         Action   = [
           "ecr-public:GetAuthorizationToken",
-          "sts:GetServiceBearerToken"  # Added permission here
+          "ecr-public:InitiateLayerUpload",
+          "ecr-public:UploadLayerPart",
+          "ecr-public:CompleteLayerUpload",
+          "ecr-public:BatchCheckLayerAvailability",
+          "ecr-public:PutImage"
         ]
         Resource = "*"
       },
@@ -99,12 +103,16 @@ resource "aws_iam_role_policy" "codebuild_policy" {
   })
 }
 
-
-
 resource "aws_iam_role_policy_attachment" "AWSEC2ContainerRegistryFullAccess" {
   role       = aws_iam_role.codebuild_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess"
 }
+
+resource "aws_iam_role_policy_attachment" "AWSEC2ContainerRegistryPublicFullAccess" {
+  role       = aws_iam_role.codebuild_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPublicFullAccess"
+}
+
 resource "aws_iam_role_policy_attachment" "codebuild_s3_full_access" {
   role       = aws_iam_role.codebuild_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
@@ -146,7 +154,7 @@ resource "aws_codebuild_project" "revhire-job-build" {
 
     environment_variable {
       name  = "REPOSITORY_URI"
-      value = "public.ecr.aws/m1n3x7n9/revhire-job-ecr-repo"
+      value = "prasannababu7/revhire-job-backend-repo"
     }
     environment_variable {
       name  = "EKS_CLUSTERNAME"
